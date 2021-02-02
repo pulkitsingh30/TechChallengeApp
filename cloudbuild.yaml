@@ -2,3 +2,7 @@ steps:
   - name: "gcr.io/cloud-builders/go"
     args: ["version"]
     env:  ["GOPATH=."]
+  - name: "gcr.io/cloud-builders/go"
+    entrypoint: "sh"
+    args: ["./cloud-build/go-swagger-dependencies.sh"]
+    #dir : "GOPATH/src/github.com/servian/TechTestApp"

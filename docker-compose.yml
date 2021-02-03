@@ -10,8 +10,8 @@ services:
     networks:
       - goappnetwork
     environment:
-      POSTGRES_USER: ${_DBUSER}
-      POSTGRES_PASSWORD: ${_DBPASSWORD}
+      POSTGRES_USER: ${VTT_DBUSER}
+      POSTGRES_PASSWORD: ${VTT_DBPASSWORD}
   web:
     links:
       - db:postgres
@@ -21,9 +21,9 @@ services:
     networks:
       - goappnetwork
     environment:
-      _DBNAME: ${_DBNAME}
-      _DBUSER: ${_DBUSER}
-      _DBPASSWORD: ${_DBPASSWORD}
+      VTT_DBNAME: ${VTT_DBNAME}
+      VTT_DBUSER: ${VTT_DBUSER}
+      VTT_DBPASSWORD: ${VTT_DBPASSWORD}
 volumes:
   database-data:
 

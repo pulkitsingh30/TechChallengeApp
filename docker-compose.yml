@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    networks:
+      - goappnetwork
+    environment:
+      POSTGRES_USER: ${_DBUSER}
+      POSTGRES_PASSWORD: ${_DBPASSWORD}
+  web:
+    links:
+      - db:postgres
+    image: gcr.io/servian-tech/goapp-image:latest
+    ports:
+      - "80:3000"
+    networks:
+      - goappnetwork
+    environment:
+      VTT_DBNAME: ${_DBNAME}
+      VTT_DBUSER: ${_DBUSER}
+      VTT_DBPASSWORD: ${_DBPASSWORD}
+volumes:
+  database-data:
+
+networks:
+  goappnetwork:
+    driver: bridge

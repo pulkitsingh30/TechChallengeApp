@@ -21,9 +21,9 @@ services:
     networks:
       - goappnetwork
     environment:
-      VTT_DBNAME: ${_DBNAME}
-      VTT_DBUSER: ${_DBUSER}
-      VTT_DBPASSWORD: ${_DBPASSWORD}
+      _DBNAME: ${_DBNAME}
+      _DBUSER: ${_DBUSER}
+      _DBPASSWORD: ${_DBPASSWORD}
 volumes:
   database-data:
 

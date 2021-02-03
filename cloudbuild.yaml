@@ -1,8 +1,7 @@
 steps:
-  - name: "gcr.io/cloud-builders/go"
-    args: ["version"]
-    env:  ["GOPATH=."]
-  - name: "gcr.io/cloud-builders/go"
-    entrypoint: "sh"
-    args: ["./cloud-build/go-swagger-dependencies.sh"]
-    dir : "$GOPATH/src/github.com/pulkitsingh30/TechChallengeApp"
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/servian-tech/goapp-image', '.']
+- name: 'gcr.io/cloud-builders/docker'  
+  args: ['push', 'gcr.io/servian-tech/goapp-image']
+- name: 'docker/compose:1.19.0'
+  args: ['up', '-d']

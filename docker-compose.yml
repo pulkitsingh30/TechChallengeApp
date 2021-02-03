@@ -1,4 +1,4 @@
-version: '2'
+version: "3" 
 
 services:
   db:
@@ -13,6 +13,7 @@ services:
       POSTGRES_USER: ${VTT_DbUser}
       POSTGRES_PASSWORD: ${VTT_DbPassword}
   web:
+    restart: on-failure:5
     links:
       - db:postgres
     image: gcr.io/servian-tech/goapp-image:latest

@@ -1,5 +1,4 @@
 module "gke_cluster" {
-  # Use a version of the gee-cluster module that supports Terraform 0.12
   source =“https://github.com/gruntwork-io/terraform-google-gke.git//tree/master/modules/gke-cluster”
 
 

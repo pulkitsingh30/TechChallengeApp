@@ -1,6 +1,15 @@
 terraform {
-  # The modules used in this example require Terraform 0.12, additionally we depend on a bug fixed in version 0.12.7.
   required_version = ">= 0.12.7"
+}
+
+#--------------------------------------------------------------------------------------------------------------------
+# Creating GCS bucket to store terraform state files
+#--------------------------------------------------------------------------------------------------------------------
+terraform {
+  backend "gcs" {
+    bucket = "go-app-infra"
+    prefix = "version/tfstate"
+  }
 }
 
 provider "google" {
@@ -16,12 +25,12 @@ provider "google-beta" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# DEPLOY A PRIVATE CLUSTER IN GOOGLE CLOUD PLATFORM
+# Using Gruntwork GKE module for creatting private cluster ing GCP
 # ---------------------------------------------------------------------------------------------------------------------
 
 module "gke_cluster" {
-  # Use a version of the gke-cluster module that supports Terraform 0.12
-  source = "git::git@github.com:gruntwork-io/terraform-google-gke.git//modules/gke-cluster?ref=v0.3.8"
+  # Use a version of the gee-cluster module that supports Terraform 0.12
+  source = "github.com/gruntwork-io/terraform-google-gke.git/modules/gke-cluster"
 
   name = var.cluster_name
 
@@ -60,7 +69,7 @@ module "gke_cluster" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# CREATE A NODE POOL
+# Node Pool Creation
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "google_container_node_pool" "node_pool" {
@@ -119,21 +128,20 @@ resource "google_container_node_pool" "node_pool" {
     delete = "30m"
   }
 }
-
 # ---------------------------------------------------------------------------------------------------------------------
-# CREATE A CUSTOM SERVICE ACCOUNT TO USE WITH THE GKE CLUSTER
+# Service Account Creation
 # ---------------------------------------------------------------------------------------------------------------------
 
 module "gke_service_account" {
-  source = "git::git@github.com:gruntwork-io/terraform-google-gke.git//modules/gke-service-account?ref=v0.3.8"
-
+  
+  source      = “github.com/gruntwork-io/terraform-google-gke.git/modules/gke-service-account"
   name        = var.cluster_service_account_name
   project     = var.project
   description = var.cluster_service_account_description
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# ALLOW THE CUSTOM SERVICE ACCOUNT TO PULL IMAGES FROM THE GCR REPO
+# Providing IAM role to SA for pulling images from GCR
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "google_storage_bucket_iam_member" "member" {
@@ -143,11 +151,11 @@ resource "google_storage_bucket_iam_member" "member" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# CREATE A NETWORK TO DEPLOY THE CLUSTER TO
+# VPC Creation
 # ---------------------------------------------------------------------------------------------------------------------
 
 module "vpc_network" {
-  source = "github.com/gruntwork-io/terraform-google-network.git//modules/vpc-network?ref=v0.2.1"
+  source ="github.com/gruntwork-io/terraform-google-network.git/modules/vpc-network"
 
   name_prefix = "${var.cluster_name}-network-${random_string.suffix.result}"
   project     = var.project
@@ -163,4 +171,5 @@ resource "random_string" "suffix" {
   special = false
   upper   = false
 }
+
 

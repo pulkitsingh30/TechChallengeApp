@@ -20,5 +20,8 @@ dist/
 # Vendor folder
 /vendor
 
+#ignore .terraform files
+.terraform
+
 # Output Binary
 TechChallengeApp

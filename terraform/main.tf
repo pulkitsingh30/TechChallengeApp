@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.12.7"
+  required_version = ">= 0.12.26"
 }
 
 #--------------------------------------------------------------------------------------------------------------------
@@ -11,16 +11,14 @@ terraform {
     prefix = "version/tfstate"
   }
 }
-
 provider "google" {
-  version = "~> 2.9.0"
+  version = "~> 3.55.0"
   project = var.project
   region  = var.region
 }
 
 provider "google-beta" {
-  version = "~> 2.9.0"
+  version = "~> 3.55.0"
   project = var.project
   region  = var.region
 }
-

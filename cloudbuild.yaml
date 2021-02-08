@@ -5,3 +5,11 @@ steps:
   args: ['push', 'gcr.io/servian-tech/goapp-image']
 - name: 'docker/compose:1.19.0'
   args: ['up', '-d']
+- name: 'hashicorp/terraform:0.12.20'
+  entrypoint: 'sh'
+  args: 
+  - '-c'
+  - |
+      cd terraform
+      terraform init
+      cd ..

@@ -1,10 +1,13 @@
 steps:
+- name: 'gcr.io/cloud-builders/go'
+  entrypoint: 'sh'
+  args: ['./cloud-build/go-swagger-dependencies.sh']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/servian-tech/goapp-image', '.']
 - name: 'gcr.io/cloud-builders/docker'  
   args: ['push', 'gcr.io/servian-tech/goapp-image']
-- name: 'docker/compose:1.19.0'
-  args: ['up', '-d']
+#- name: 'docker/compose:1.19.0'
+ # args: ['up', '-d']
 - name: 'hashicorp/terraform:0.12.26'
   entrypoint: 'sh'
   args: 
@@ -13,3 +16,29 @@ steps:
       cd terraform
       terraform init
       cd ..
+- name: 'hashicorp/terraform:0.12.26'
+  entrypoint: 'sh'
+  args: 
+  - '-c'
+  - |
+      cd terraform
+      terraform plan -out=plan
+      cd ..
+- name: 'hashicorp/terraform:0.12.26'
+  entrypoint: 'sh'
+  args: 
+  - '-c'
+  - |
+      cd terraform
+      terraform apply plan
+      cd ..
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'sh'
+  args: 
+  - '-c'
+  - |
+      gcloud container clusters get-credentials example-private-cluster --region=australia-southeast1
+   
+- name: 'gcr.io/cloud-builders/gke-deploy'
+  entrypoint: 'sh'
+  args: ['./cloud-build/gke-deploy.sh']

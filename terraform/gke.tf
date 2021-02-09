@@ -1,5 +1,5 @@
 module "gke_cluster" {
-  source =“https://github.com/gruntwork-io/terraform-google-gke.git//tree/master/modules/gke-cluster”
+  source = "github.com/gruntwork-io/terraform-google-gke.git/modules/gke-cluster"
 
 
   name = var.cluster_name
@@ -17,7 +17,7 @@ module "gke_cluster" {
   master_ipv4_cidr_block = var.master_ipv4_cidr_block
 
   # This setting will make the cluster private
-  enable_private_nodes = "true"
+  enable_private_nodes = true
 
   # To make testing easier, we keep the public endpoint available. In production, we highly recommend restricting access to only within the network boundary, requiring your users to use a bastion host or VPN.
   disable_public_endpoint = "false"
@@ -37,17 +37,17 @@ module "gke_cluster" {
 
   cluster_secondary_range_name = module.vpc_network.public_subnetwork_secondary_range_name
 }
-}
-
- description = var.cluster_service_account_description
-}
-
 # ---------------------------------------------------------------------------------------------------------------------
 # Providing IAM role to SA for pulling images from GCR
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "google_storage_bucket_iam_member" "member" {
-  bucket = "artifacts.${var.project}.appspot# ---------------------------------------------------------------------------------------------------------------------
+  bucket = "artifacts.${var.project}.appspot.com"
+  role   = "roles/storage.objectViewer"
+  member = "serviceAccount:${module.gke_service_account.email}"
+}
+  
+#---------------------------------------------------------------------------------------------------------------------
 # Node Pool Creation
 # ---------------------------------------------------------------------------------------------------------------------
 
@@ -67,8 +67,8 @@ resource "google_container_node_pool" "node_pool" {
   }
 
   management {
-    auto_repair  = "true"
-    auto_upgrade = "true"
+    auto_repair  = true
+    auto_upgrade = true
   }
 
   node_config {
@@ -108,19 +108,20 @@ resource "google_container_node_pool" "node_pool" {
   }
 }
 # ---------------------------------------------------------------------------------------------------------------------
-# Service Account Creation
+# Service Account Creation and IAM role
 # ---------------------------------------------------------------------------------------------------------------------
 
 module "gke_service_account" {
-  source = “github.com/gruntwork-io/terraform-google-gke.git/modules/gke-service-account"
-
+  source = "github.com/gruntwork-io/terraform-google-gke.git/modules/gke-service-account"
   name        = var.cluster_service_account_name
   project     = var.project
-.com"
+  description = var.cluster_service_account_description
+}
+resource "google_storage_bucket_iam_member" "member1" {
+  bucket = "artifacts.${var.project}.appspot.com"
   role   = "roles/storage.objectViewer"
   member = "serviceAccount:${module.gke_service_account.email}"
 }
-
 # ---------------------------------------------------------------------------------------------------------------------
 # VPC Creation
 # ---------------------------------------------------------------------------------------------------------------------

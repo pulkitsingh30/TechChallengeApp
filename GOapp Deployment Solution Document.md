@@ -69,6 +69,14 @@
   7. Uses the gcloud cloud-builder to get the credentials for the created GKE cluster.
   8. Uses the GKE deploy cloud builder and calls the gke-deploy script that deploys the go application on the GKE cluster, does the pods horizontal autoscaling and exposes the app to internet by provisioning a load balancer.
 
+  ## <u>Cleaning up</u>
+
+  The GKE infrastructure can easily be cleaned by running the below terraform command that destroys the infrastructure that was created.
+
+  "terraform destroy"
+
+  
+
   ## Assessment Grading Criteria
 
 

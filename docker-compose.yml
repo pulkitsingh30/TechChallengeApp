@@ -1,4 +1,4 @@
-version: "3" 
+version: '2' 
 
 services:
   db:
@@ -12,19 +12,26 @@ services:
     environment:
       POSTGRES_USER: ${VTT_DbUser}
       POSTGRES_PASSWORD: ${VTT_DbPassword}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   web:
-    restart: on-failure:5
     links:
       - db:postgres
     image: gcr.io/servian-tech/goapp-image:latest
     ports:
       - "80:3000"
+    depends_on:
+       db:
+        condition: service_healthy
     networks:
       - goappnetwork
     environment:
       VTT_DbName: ${VTT_DbName}
       VTT_DbUser: ${VTT_DbUser}
-      VTT_DbPassword: ${VTT_DbPassword}
+      VTT_DbPassword: ${VTT_DbPassword}a
 volumes:
   database-data:
 

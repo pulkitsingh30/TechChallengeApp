@@ -6,8 +6,6 @@ steps:
   args: ['build', '-t', 'gcr.io/servian-tech/goapp-image', '.']
 - name: 'gcr.io/cloud-builders/docker'  
   args: ['push', 'gcr.io/servian-tech/goapp-image']
-#- name: 'docker/compose:1.19.0'
- # args: ['up', '-d']
 - name: 'hashicorp/terraform:0.12.26'
   entrypoint: 'sh'
   args: 
@@ -42,3 +40,5 @@ steps:
 - name: 'gcr.io/cloud-builders/gke-deploy'
   entrypoint: 'sh'
   args: ['./cloud-build/gke-deploy.sh']
+
+timeout: '1200s'

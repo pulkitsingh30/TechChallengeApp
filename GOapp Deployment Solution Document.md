@@ -9,7 +9,18 @@
  4. The application is then exposed to internet using the Load Balancer.
 
 ## <u>Pre-requisites</u>
-1. A GCP Project with billing and below API's enabled:<br>
+1. Open the Cloud Shell in GCP.
+
+2.  Create A new GCP Project <br>
+    Command
+    gcloud projects create --name go-app
+       where go-app is the name of the project
+       Set the newly created project as default
+3.  Attach the billing account with the project
+4.  Enable the below API's by running below command
+ 
+  gcloud services enable cloudresourcemanager.googleapis.com cloudbuild.googleapis.com logging.googleapis.com compute.googleapis.com container.googleapis.com iam.googleapis.com storage.googleapis.com
+
     * Cloud Resource Manager API<br>
     * Cloud Build API<br>
     * Cloud Logging API<br>
@@ -17,7 +28,11 @@
     * Kubernetes Engine API<br>
     * Identity and Access Management (IAM) API	
 
-2. Below IAM roles for the cloud build following GCP's principle of lease priviledges<br>
+5. Provide below IAM roles for the cloud build following GCP's principle of lease priviledges<br>
+   gcloud projects add-iam-policy-binding go-app --member=serviceAccount:<project_id>@cloudbuild.gserviceaccount.com --role=roles/compute.networkAdmin --role=roles/compute.securityAdmin --role=roles/roles/container.admin --role=roles/iam.securityAdmin --role=roles/iam.serviceAccountCreator --role=roles/iam.serviceAccountUser --role=roles/storage.admin
+   
+   Replace Project ID with the actual project ID of the project
+
     * Compute Network Admin
     * Compute Security Admin
     * Kubernetes Engine Admin
@@ -26,11 +41,18 @@
     * Service Account User
     * Storage Admin
 
-3. A storage bucket that holds the terraform state.
+6. A storage bucket that holds the terraform state.
 
-4. Terraform version 0.12.26 or later
+7. Terraform version 0.12.26 or later
 
-5. docker and docker-compose to run the solution locally
+8. docker and docker-compose to run the solution locally
+
+## <u>Instructions for Deploying in GCP </u>
+
+1. Make sure Pre-requisits are met
+2. Open the cloud Shell in GCP
+3. Set the default project as the one created in pre-requisite step 1.
+
 
 
 

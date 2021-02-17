@@ -9,15 +9,23 @@
  4. The application is then exposed to internet using the Load Balancer.
 
 ## <u>Pre-requisites</u>
+
+A google account and a GCP account <br>
+Terraform version 0.12.26 or later
+
+## <u>Instructions for Deploying in GCP </u>
+
+Replace < project-name>, < project-number > & < project-id>
+
 1. Open the Cloud Shell in GCP.
 
-2.  Create A new GCP Project <br>
+2.  Create a new GCP Project <br>
     Command
-    gcloud projects create --name go-app
-       where go-app is the name of the project
-       Set the newly created project as default
-3.  Attach the billing account with the project
-4.  Enable the below API's by running below command
+    gcloud projects create --name < project-name > <br>
+3. Set the newly created project as default
+   gcloud config set project < project-name >
+4.  Attach the billing account with the project
+5.  Enable the below API's by running below command
  
   gcloud services enable cloudresourcemanager.googleapis.com cloudbuild.googleapis.com logging.googleapis.com compute.googleapis.com container.googleapis.com iam.googleapis.com storage.googleapis.com
 
@@ -28,8 +36,8 @@
     * Kubernetes Engine API<br>
     * Identity and Access Management (IAM) API	
 
-5. Provide below IAM roles for the cloud build following GCP's principle of lease priviledges<br>
-   gcloud projects add-iam-policy-binding go-app --member=serviceAccount:<project_id>@cloudbuild.gserviceaccount.com --role=roles/compute.networkAdmin --role=roles/compute.securityAdmin --role=roles/roles/container.admin --role=roles/iam.securityAdmin --role=roles/iam.serviceAccountCreator --role=roles/iam.serviceAccountUser --role=roles/storage.admin
+6. Provide below IAM roles for the cloud build following GCP's principle of lease priviledges<br>
+   gcloud projects add-iam-policy-binding <b>< project-id></b> --member=serviceAccount:<b>< project-number></b>@cloudbuild.gserviceaccount.com --role=roles/compute.networkAdmin --role=roles/compute.securityAdmin --role=roles/roles/container.admin --role=roles/iam.securityAdmin --role=roles/iam.serviceAccountCreator --role=roles/iam.serviceAccountUser --role=roles/storage.admin
    
    Replace Project ID with the actual project ID of the project
 
@@ -41,17 +49,11 @@
     * Service Account User
     * Storage Admin
 
-6. A storage bucket that holds the terraform state.
+7. git clone https://github.com/pulkitsingh30/TechChallengeApp.git
+8. cd TechChallenge
+9. gcloud builds submit .
+10. After the build is completed, please get the external IP  of the loadbalancer and access the app in browser.
 
-7. Terraform version 0.12.26 or later
-
-8. docker and docker-compose to run the solution locally
-
-## <u>Instructions for Deploying in GCP </u>
-
-1. Make sure Pre-requisits are met
-2. Open the cloud Shell in GCP
-3. Set the default project as the one created in pre-requisite step 1.
 
 
 

@@ -15,20 +15,21 @@ Terraform version 0.12.26 or later
 
 ## <u>Instructions for Deploying in GCP </u>
 
-Replace < project-name>, < project-number > & < project-id>
+Replace < project-name> with friendly name you want to call your project with
 
 1. Open the Cloud Shell in GCP.
 
-2. Create a new GCP Project by running below command <br>
+2. Create a new GCP Project by running below commands <br>
     gcloud projects create --name < project-name > <br>
-3. Set the newly created project as default
-   gcloud config set project < project-name >
-4.  Attach the billing account with the project
+    PROJECT_ID=$(gcloud config get-value project)<br>
+3. Set the newly created project as default by running below command<br>
+   gcloud config set project $PROJECT_ID
+4. Attach the billing account with the project
 5. git clone https://github.com/pulkitsingh30/TechChallengeApp.git
 6. cd TechChallenge
 7. Enable the below required API's and IAM roles by running below commands<br>
     chmod +x iam-api.sh <br>
-    ./iam-api.sh
+    sh iam-api.sh
  
  API's
 

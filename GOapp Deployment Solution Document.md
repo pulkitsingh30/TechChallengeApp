@@ -26,7 +26,7 @@ Replace < project-name> with friendly name you want to call your project with
    gcloud config set project $PROJECT_ID
 4. Attach the billing account with the project
 5. git clone https://github.com/pulkitsingh30/TechChallengeApp.git
-6. cd TechChallenge
+6. cd TechChallengeApp/
 7. Enable the below required API's and IAM roles by running below commands<br>
     chmod +x iam-api.sh <br>
     sh iam-api.sh

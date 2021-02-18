@@ -19,15 +19,18 @@ Replace < project-name>, < project-number > & < project-id>
 
 1. Open the Cloud Shell in GCP.
 
-2.  Create a new GCP Project <br>
-    Command
+2. Create a new GCP Project by running below command <br>
     gcloud projects create --name < project-name > <br>
 3. Set the newly created project as default
    gcloud config set project < project-name >
 4.  Attach the billing account with the project
-5.  Enable the below API's by running below command
+5. git clone https://github.com/pulkitsingh30/TechChallengeApp.git
+6. cd TechChallenge
+7. Enable the below required API's and IAM roles by running below commands<br>
+    chmod +x iam-api.sh <br>
+    ./iam-api.sh
  
-  gcloud services enable cloudresourcemanager.googleapis.com cloudbuild.googleapis.com logging.googleapis.com compute.googleapis.com container.googleapis.com iam.googleapis.com storage.googleapis.com
+ API's
 
     * Cloud Resource Manager API<br>
     * Cloud Build API<br>
@@ -36,10 +39,7 @@ Replace < project-name>, < project-number > & < project-id>
     * Kubernetes Engine API<br>
     * Identity and Access Management (IAM) API	
 
-6. Provide below IAM roles for the cloud build following GCP's principle of lease priviledges<br>
-   gcloud projects add-iam-policy-binding <b>< project-id></b> --member=serviceAccount:<b>< project-number></b>@cloudbuild.gserviceaccount.com --role=roles/compute.networkAdmin --role=roles/compute.securityAdmin --role=roles/roles/container.admin --role=roles/iam.securityAdmin --role=roles/iam.serviceAccountCreator --role=roles/iam.serviceAccountUser --role=roles/storage.admin
-   
-   Replace Project ID with the actual project ID of the project
+IAM Roles
 
     * Compute Network Admin
     * Compute Security Admin
@@ -49,10 +49,9 @@ Replace < project-name>, < project-number > & < project-id>
     * Service Account User
     * Storage Admin
 
-7. git clone https://github.com/pulkitsingh30/TechChallengeApp.git
-8. cd TechChallenge
-9. gcloud builds submit .
-10. After the build is completed, please get the external IP  of the loadbalancer and access the app in browser.
+
+8. gcloud builds submit .
+9. After the build is completed, please get the external IP  of the loadbalancer and access the app in browser.
 
 
 
